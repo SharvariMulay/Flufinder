@@ -8,6 +8,15 @@ upload_fasta <- function(fasta_filename) {
              set.attributes = FALSE)
 }
 
+# Function 2
+trypsinize <- function(proteins) {
+  #Opening stringr for simple string manipulation
+  library(stringr)
+  #Using str_split_1 to split proteins after R or K amino acids; "(?<=R|K)"
+  #is a regular expression for splitting after "?<=" R or K "R|K"
+  lapply(proteins, str_split_1, pattern="(?<=R|K)")
+}
+
 # Function 4
 splitpeptides_to_masses <- function(aa) {
   # Generating a vector of masses for each amino acid
@@ -24,4 +33,22 @@ splitpeptides_to_masses <- function(aa) {
   }
   # Unlisting the inner lists to generate a list of vectors of masses for each protein
   lapply(peptide_masses, unlist)
+}
+
+# Function 5
+count_matching_masses <- function(protein_masses, sample) {
+  
+  #Virus masses is a list of masses for each protein so we use sapply to
+  #iterate over the list; sum (of TRUEs) is used to count the number of
+  #times a mass in the sample is found (%in%) among the masses of each of
+  #the proteins (virus_masses); note that masses are converted into strings
+  #(as.character) because %in% is not very reliable with numbers
+  
+  df <- as.data.frame(sapply(protein_masses, function (x)
+    
+    sum(as.character(sample) %in% as.character(x))))
+  
+  # Adding peptide_counts as the column name of the counts column
+  names(df) <- "peptide_counts"
+  return(df)
 }
