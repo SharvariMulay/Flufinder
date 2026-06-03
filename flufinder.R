@@ -17,6 +17,15 @@ trypsinize <- function(proteins) {
   lapply(proteins, str_split_1, pattern="(?<=R|K)")
 }
 
+# Function 3
+split_peptides <- function(peptides) {
+  # Opening stringr for simple string manipulation
+  library(stringr)
+  #Splitting peptides into individual amino acids using str_split;
+  generates a list of lists of amino acids for each peptide
+  lapply(peptides, str_split, pattern="")
+}
+
 # Function 4
 splitpeptides_to_masses <- function(aa) {
   # Generating a vector of masses for each amino acid
